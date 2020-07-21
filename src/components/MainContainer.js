@@ -2,13 +2,39 @@ import React from 'react';
 import SongList from './SongList';
 import Queue from './Queue';
 
-const MainContainer = props => {
-    return (
-        <div className="simple-flex-row top">
-            <SongList /> {/** TODO: What props do I need? */}
-            <Queue /> {/** TODO: What props do I need? */}
-        </div>
-    )
+class MainContainer extends React.Component {
+
+    state = {
+        currentSong: {}
+    }
+
+    handleClickPlayNow = id => {
+        let song = this.props.songs.find(song => song.id === id)
+        this.setState({
+            currentSong: song
+        })
+    }
+
+
+    render() {
+        console.log(this.props.currentQueue)
+        return (
+            <div className="simple-flex-row top">
+                <SongList 
+                    songs={this.props.songs}
+                    handleFavoriteClick={this.props.handleFavoriteClick}
+                    handleClickPlayNow={this.handleClickPlayNow}
+                    handleAddToQueue={this.props.handleAddToQueue}
+                />
+                <Queue 
+                    currentSong={this.state.currentSong}
+                    currentQueue={this.props.currentQueue}
+                    handleDeleteQueueItem={this.props.handleDeleteQueueItem}
+                /> 
+            </div>
+    )}
+    
 }
 
 export default MainContainer;
+
